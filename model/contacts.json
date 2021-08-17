@@ -58,5 +58,12 @@
     "name": "Alec Howard",
     "email": "Donec.elementum@scelerisquescelerisquedui.net",
     "phone": "(748) 206-2688"
+  },
+  {
+    "id": "8c57c54b-4cfd-416d-9f74-1bb9d559c895",
+    "name": "Jone Smith",
+    "email": "jone.smith@vestibul.co.uk",
+    "phone": "(993) 917-3894",
+    "isVaccinated": false
   }
 ]
