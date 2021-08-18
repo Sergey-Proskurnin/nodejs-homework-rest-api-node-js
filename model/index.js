@@ -3,10 +3,9 @@ const path = require('path');
 const { v4: uuid } = require('uuid');
 
 const filePath = path.join(__dirname, 'contacts.json');
-// const contacts = require('./contacts.json')
 
 const readContacts = async () => {
-  const data = await fs.readFile(filePath, 'utf8');
+  const data = await fs.readFile(filePath);
   return JSON.parse(data);
 };
 
@@ -16,16 +15,19 @@ const listContacts = async () => {
 
 const getContactById = async contactId => {
   const data = await readContacts();
-  const result = data.filter(contact => contact.id === +contactId)
-  return result
-
+  const result = data.filter(contact => contact.id === +contactId);
+  return result;
 };
 
 const removeContact = async contactId => {
   const data = await readContacts();
-  const result = data.filter(contact => contact.id !== +contactId)
-  await fs.writeFile(filePath, JSON.stringify(result, null, 2));
-
+  const contactIdx = data.findIndex(contact => contact.id === +contactId);
+  if (contactIdx !== -1) {
+    const contactDelete = data.splice(contactIdx, 1);
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+    return contactDelete;
+  }
+  return null;
 };
 
 const addContact = async body => {
@@ -33,7 +35,6 @@ const addContact = async body => {
   const record = {
     id,
     ...body,
-    ...(body.isVaccinated ? {} : { isVaccinated: false }),
   };
   const data = await readContacts();
   data.push(record);
@@ -41,7 +42,15 @@ const addContact = async body => {
   return record;
 };
 
-const updateContact = async (contactId, body) => {};
+const updateContact = async (contactId, body) => {
+  const data = await readContacts();
+  const [result] = data.filter(contact => contact.id === +contactId);
+  if (result) {
+    Object.assign(result, body);
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+  }
+  return result;
+};
 
 module.exports = {
   listContacts,
