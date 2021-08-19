@@ -15,13 +15,17 @@ const listContacts = async () => {
 
 const getContactById = async contactId => {
   const data = await readContacts();
-  const result = data.filter(contact => contact.id === +contactId);
+  const result = isNaN(contactId)
+    ? data.find(contact => contact.id === contactId)
+    : data.find(contact => contact.id === +contactId);
   return result;
 };
 
 const removeContact = async contactId => {
   const data = await readContacts();
-  const contactIdx = data.findIndex(contact => contact.id === +contactId);
+  const contactIdx = isNaN(contactId)
+    ? data.findIndex(contact => contact.id === contactId)
+    : data.findIndex(contact => contact.id === +contactId);
   if (contactIdx !== -1) {
     const contactDelete = data.splice(contactIdx, 1);
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
@@ -44,7 +48,9 @@ const addContact = async body => {
 
 const updateContact = async (contactId, body) => {
   const data = await readContacts();
-  const [result] = data.filter(contact => contact.id === +contactId);
+  const [result] = isNaN(contactId)
+    ? data.filter(contact => contact.id === contactId)
+    : data.filter(contact => contact.id === +contactId);
   if (result) {
     Object.assign(result, body);
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
