@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const mongoose = require('mongoose');
 
 const schemaCreateContact = Joi.object({
   name: Joi.string()
@@ -8,6 +9,7 @@ const schemaCreateContact = Joi.object({
   phone: Joi.string()
     .pattern(/^[' '\-()0-9]{3,30}$/)
     .required(),
+  favorite: Joi.boolean().optional(),
 });
 
 const schemaUpdateContact = Joi.object({
@@ -19,6 +21,10 @@ const schemaUpdateContact = Joi.object({
     .pattern(/^[' '\-()0-9]{3,30}$/)
     .optional(),
 }).or('name', 'email', 'phone');
+
+const schemaUpdateStatusContact = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
 const validate = async (schema, obj, next) => {
   try {
@@ -49,5 +55,25 @@ module.exports = {
         .json({ status: 'error', code: 400, message: 'Missing fields' });
     }
     return validate(schemaUpdateContact, req.body, next);
+  },
+  validationUpdateStatusContact: (req, res, next) => {
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Missing field favorite',
+      });
+    }
+    return validate(schemaUpdateStatusContact, req.body, next);
+  },
+
+  validateMongoId: (req, _res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.contactId)) {
+      return next({
+        status: 400,
+        message: 'Invalid ObjectId',
+      });
+    }
+    next();
   },
 };

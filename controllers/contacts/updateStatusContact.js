@@ -1,8 +1,11 @@
 const Contacts = require('../../repositories/contacts');
 
-const getByIdContact = async (req, res, next) => {
+const updateStatusContact = async (req, res, next) => {
   try {
-    const contact = await Contacts.getContactById(req.params.contactId);
+    const contact = await Contacts.updateContact(
+      req.params.contactId,
+      req.body,
+    );
     if (contact) {
       return res
         .status(200)
@@ -16,4 +19,4 @@ const getByIdContact = async (req, res, next) => {
   }
 };
 
-module.exports = getByIdContact;
+module.exports = updateStatusContact;

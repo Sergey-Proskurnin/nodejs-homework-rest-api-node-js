@@ -1,4 +1,4 @@
-const Contacts = require('../../model/contacts');
+const Contacts = require('../../repositories/contacts');
 
 const updateContact = async (req, res, next) => {
   try {
