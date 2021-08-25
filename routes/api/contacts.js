@@ -26,8 +26,9 @@ router.put(
 
 router.patch(
   '/:contactId/favorite',
+  validateMongoId,
   validationUpdateStatusContact,
-  ctrl.updateStatusContact,
+  ctrl.updateContact,
 );
 
 module.exports = router;
