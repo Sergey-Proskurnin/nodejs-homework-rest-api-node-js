@@ -1,11 +1,12 @@
 const Contacts = require('../../repositories/contacts');
+const { CREATED } = require('../../helpers');
 
 const addContact = async (req, res, next) => {
   try {
     const contacts = await Contacts.addContact(req.body);
     return res
-      .status(201)
-      .json({ status: 'success', code: 201, data: { contacts } });
+      .status(CREATED)
+      .json({ status: 'success', code: CREATED, data: { contacts } });
   } catch (error) {
     next(error);
   }

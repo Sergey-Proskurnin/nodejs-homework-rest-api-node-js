@@ -1,9 +1,12 @@
 const Contacts = require('../../repositories/contacts');
+const { OK } = require('../../helpers');
 
 const getAllContacts = async (_req, res, next) => {
   try {
     const contacts = await Contacts.listContacts();
-    return res.json({ status: 'success', code: 200, data: { contacts } });
+    return res
+      .status(OK)
+      .json({ status: 'success', code: OK, data: { contacts } });
   } catch (error) {
     next(error);
   }

@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
+const { BAD_REQUEST } = require('../../helpers');
 
 const schemaCreateContact = Joi.object({
   name: Joi.string()
@@ -32,7 +33,7 @@ const validate = async (schema, obj, next) => {
     next();
   } catch (err) {
     next({
-      status: 400,
+      status: BAD_REQUEST,
       message: err.message,
     });
   }
@@ -42,25 +43,29 @@ module.exports = {
     if ('name' in req.body && 'email' in req.body && 'phone' in req.body) {
       return validate(schemaCreateContact, req.body, next);
     }
-    return res.status(400).json({
+    return res.status(BAD_REQUEST).json({
       status: 'error',
-      code: 400,
+      code: BAD_REQUEST,
       message: 'Missing required name field',
     });
   },
   validationUpdateContact: (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
       return res
-        .status(400)
-        .json({ status: 'error', code: 400, message: 'Missing fields' });
+        .status(BAD_REQUEST)
+        .json({
+          status: 'error',
+          code: BAD_REQUEST,
+          message: 'Missing fields',
+        });
     }
     return validate(schemaUpdateContact, req.body, next);
   },
   validationUpdateStatusContact: (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
+      return res.status(BAD_REQUEST).json({
         status: 'error',
-        code: 400,
+        code: BAD_REQUEST,
         message: 'Missing field favorite',
       });
     }
@@ -70,7 +75,7 @@ module.exports = {
   validateMongoId: (req, _res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.contactId)) {
       return next({
-        status: 400,
+        status: BAD_REQUEST,
         message: 'Invalid ObjectId',
       });
     }
