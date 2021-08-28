@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const { BAD_REQUEST } = require('../../helpers');
+const  { HttpCode: { BAD_REQUEST }, }  = require('../../helpers');
 
 const schemaCreateContact = Joi.object({
   name: Joi.string()

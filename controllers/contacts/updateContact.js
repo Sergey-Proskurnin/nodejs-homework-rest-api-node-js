@@ -1,5 +1,5 @@
 const Contacts = require('../../repositories/contacts');
-const { OK, NOT_FOUND } = require('../../helpers');
+const  { HttpCode: { OK, NOT_FOUND }, } = require('../../helpers');
 
 const updateContact = async (req, res, next) => {
   try {

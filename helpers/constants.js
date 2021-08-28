@@ -9,4 +9,10 @@ const HttpCode = {
     INTERNAL_SERVER_ERROR: 500,
   }
   
-  module.exports = HttpCode
+  const Packages = {
+    STARTER: "starter",
+    PRO: "pro",
+    BUSINESS: "business"
+
+  }
+  module.exports = { HttpCode, Packages }

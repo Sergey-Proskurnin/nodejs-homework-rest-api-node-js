@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const contactsRouter = require('./routes/api/contacts');
-const { NOT_FOUND, INTERNAL_SERVER_ERROR } = require('./helpers');
+const { HttpCode: { NOT_FOUND, INTERNAL_SERVER_ERROR },}  = require('./helpers');
 
 const app = express();
 

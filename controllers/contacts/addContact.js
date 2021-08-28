@@ -1,5 +1,5 @@
 const Contacts = require('../../repositories/contacts');
-const { CREATED } = require('../../helpers');
+const { HttpCode: { CREATED }  } = require('../../helpers');
 
 const addContact = async (req, res, next) => {
   try {

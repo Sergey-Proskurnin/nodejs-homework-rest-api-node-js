@@ -1,5 +1,7 @@
 const Contacts = require('../../repositories/contacts');
-const { OK } = require('../../helpers');
+const {
+  HttpCode: { OK },
+} = require('../../helpers');
 
 const getAllContacts = async (_req, res, next) => {
   try {
