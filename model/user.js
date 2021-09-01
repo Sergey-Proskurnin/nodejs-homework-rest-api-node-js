@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
-const { Packages } = require('..helpers/');
+const { Packages } = require('../helpers');
+const bcrypt = require('bcryptjs');
+const SALT_WORK_FACTOR = 10;
 
 const userSchema = new Schema(
   {
@@ -11,6 +13,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
+      validate(value) {
+        const re = /\S+@\S+\.\S+/g;
+        return re.test(String(value).toLowerCase());
+      },
     },
     subscription: {
       type: String,
@@ -21,17 +27,24 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-    },
   },
   {
     versionKey: false,
     timestamps: true,
-    toObject: {},
   },
 );
+
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  next();
+});
+
+userSchema.methods.isValidPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 const User = model('user', userSchema);
 

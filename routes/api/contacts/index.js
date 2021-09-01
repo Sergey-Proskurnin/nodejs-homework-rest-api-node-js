@@ -1,24 +1,27 @@
 const express = require('express');
 const router = express.Router();
 
+const guard = require('../../../helpers/guard');
+
 const {
   validationCreateContact,
   validationUpdateContact,
   validationUpdateStatusContact,
   validateMongoId,
 } = require('./validation');
-const { contacts: ctrl } = require('../../controllers');
+const { contacts: ctrl } = require('../../../controllers');
 
-router.get('/', ctrl.getAllContacts);
+router.get('/', guard, ctrl.getAllContacts);
 
-router.get('/:contactId', validateMongoId, ctrl.getByIdContact);
+router.get('/:contactId', guard, validateMongoId, ctrl.getByIdContact);
 
-router.post('/', validationCreateContact, ctrl.addContact);
+router.post('/', guard, validationCreateContact, ctrl.addContact);
 
-router.delete('/:contactId', validateMongoId, ctrl.removeContact);
+router.delete('/:contactId', guard, validateMongoId, ctrl.removeContact);
 
 router.put(
   '/:contactId',
+  guard,
   validateMongoId,
   validationUpdateContact,
   ctrl.updateContact,
@@ -26,6 +29,7 @@ router.put(
 
 router.patch(
   '/:contactId/favorite',
+  guard,
   validateMongoId,
   validationUpdateStatusContact,
   ctrl.updateStatusContact,

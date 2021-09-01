@@ -3,7 +3,11 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const contactsRouter = require('./routes/api/contacts');
-const { HttpCode: { NOT_FOUND, INTERNAL_SERVER_ERROR },}  = require('./helpers');
+const usersRouter = require('./routes/api/users');
+
+const {
+  HttpCode: { NOT_FOUND, INTERNAL_SERVER_ERROR },
+} = require('./helpers');
 
 const app = express();
 
@@ -14,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/contacts', contactsRouter);
+app.use('/api/v1/users', usersRouter);
 
 app.use((_req, res) => {
   res

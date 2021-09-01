@@ -1,3 +1,4 @@
-const HttpCode = require('./constants');
+const constants = require('./constants');
+// const guard = require('./guard')
 
-module.exports =  HttpCode;
+module.exports = constants;
