@@ -16,12 +16,12 @@ const guard = (req, res, next) => {
       return res.status(UNAUTHORIZED).json({
         status: 'error',
         code: UNAUTHORIZED,
-        message: 'Invalid credentionls',
+        message: 'Not authorized',
       });
     }
     req.user = user;
     return next();
-  })(req, res, next);
+  });
 };
 
 module.exports = guard;

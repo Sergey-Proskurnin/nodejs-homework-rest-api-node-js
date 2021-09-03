@@ -1,4 +1,4 @@
-const constants = require('./constants');
-// const guard = require('./guard')
+const constant = require('./constants');
+const validate = require('./validate');
 
-module.exports = constants;
+module.exports = { ...constant, validate };

@@ -15,16 +15,21 @@ const login = async (req, res, next) => {
       return res.status(UNAUTHORIZED).json({
         status: 'error',
         code: UNAUTHORIZED,
-        message: 'Invalid credentionls',
+        message: 'Email or password is wrong',
       });
     }
+    const { email, subscription } = user;
     const id = user.id;
-    const payloload = { id, test: 'Hellow' };
-    const token = jwt.sign(payloload, SECRET_KEY, { expiresIn: '2h' });
+    const payloload = { id, test: 'Hellow mamkin hacker' };
+    const token = jwt.sign(payloload, SECRET_KEY, { expiresIn: '4h' });
     await Users.updateToken(id, token);
     return res
       .status(OK)
-      .json({ status: 'success', code: OK, data: { token } });
+      .json({
+        status: 'success',
+        code: OK,
+        data: { token, user: { email, subscription } },
+      });
   } catch (error) {
     next(error);
   }

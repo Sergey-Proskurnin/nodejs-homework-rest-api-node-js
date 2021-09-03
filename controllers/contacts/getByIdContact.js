@@ -1,5 +1,7 @@
 const Contacts = require('../../repositories/contacts');
-const { HttpCode: { OK, NOT_FOUND }, } = require('../../helpers');
+const {
+  HttpCode: { OK, NOT_FOUND },
+} = require('../../helpers');
 
 const getByIdContact = async (req, res, next) => {
   try {

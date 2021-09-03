@@ -1,6 +1,9 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
-const  { HttpCode: { BAD_REQUEST }, }  = require('../../../helpers');
+const {
+  HttpCode: { BAD_REQUEST },
+  validate,
+} = require('../../../helpers');
 
 const schemaCreateContact = Joi.object({
   name: Joi.string()
@@ -26,18 +29,6 @@ const schemaUpdateContact = Joi.object({
 const schemaUpdateStatusContact = Joi.object({
   favorite: Joi.boolean().required(),
 });
-
-const validate = async (schema, obj, next) => {
-  try {
-    await schema.validateAsync(obj);
-    next();
-  } catch (err) {
-    next({
-      status: BAD_REQUEST,
-      message: err.message,
-    });
-  }
-};
 module.exports = {
   validationCreateContact: (req, res, next) => {
     if ('name' in req.body && 'email' in req.body && 'phone' in req.body) {
@@ -51,13 +42,11 @@ module.exports = {
   },
   validationUpdateContact: (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
-      return res
-        .status(BAD_REQUEST)
-        .json({
-          status: 'error',
-          code: BAD_REQUEST,
-          message: 'Missing fields',
-        });
+      return res.status(BAD_REQUEST).json({
+        status: 'error',
+        code: BAD_REQUEST,
+        message: 'Missing fields',
+      });
     }
     return validate(schemaUpdateContact, req.body, next);
   },

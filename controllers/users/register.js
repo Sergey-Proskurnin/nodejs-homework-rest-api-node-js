@@ -12,17 +12,15 @@ const register = async (req, res, next) => {
       return res.status(CONFLICT).json({
         status: 'error',
         code: CONFLICT,
-        message: 'Email is already used',
+        message: 'Email in use',
       });
     }
-    const { id, email, subscription } = await Users.create(req.body);
-    return res
-      .status(CREATED)
-      .json({
-        status: 'success',
-        code: CREATED,
-        data: { id, email, subscription },
-      });
+    const { email, subscription } = await Users.create(req.body);
+    return res.status(CREATED).json({
+      status: 'success',
+      code: CREATED,
+      user: { email, subscription },
+    });
   } catch (error) {
     next(error);
   }

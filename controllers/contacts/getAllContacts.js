@@ -2,9 +2,11 @@ const Contacts = require('../../repositories/contacts');
 
 const {
   HttpCode: { OK },
+  Packages,
 } = require('../../helpers');
 
 const getAllContacts = async (_req, res, next) => {
+  console.log(Packages);
   try {
     const contacts = await Contacts.listContacts();
     return res
