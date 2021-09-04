@@ -5,7 +5,8 @@ const {
 
 const getByIdContact = async (req, res, next) => {
   try {
-    const contact = await Contacts.getContactById(req.params.contactId);
+    const userId = req.user.id;
+    const contact = await Contacts.getContactById(userId, req.params.contactId);
     if (contact) {
       return res
         .status(OK)

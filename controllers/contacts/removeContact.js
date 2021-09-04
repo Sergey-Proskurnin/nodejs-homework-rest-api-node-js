@@ -1,9 +1,12 @@
 const Contacts = require('../../repositories/contacts');
-const  { HttpCode: { OK, NOT_FOUND }, } = require('../../helpers');
+const {
+  HttpCode: { OK, NOT_FOUND },
+} = require('../../helpers');
 
 const removeContact = async (req, res, next) => {
   try {
-    const contact = await Contacts.removeContact(req.params.contactId);
+    const userId = req.user.id;
+    const contact = await Contacts.removeContact(userId, req.params.contactId);
     if (contact) {
       return res.status(OK).json({
         status: 'success',
