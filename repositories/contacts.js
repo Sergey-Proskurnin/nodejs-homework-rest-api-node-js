@@ -1,8 +1,8 @@
 const Contact = require('../model/contact');
 
 const listContacts = async (page = 1, limit = 10, favorite = null) => {
-  const contacts = await Contact.find({favorite})
-  contacts.limit(limit * 1)
+  const contacts = await Contact.find({ favorite })
+    .limit(limit * 1)
     .skip((page - 1) * limit)
     .exec();
 
