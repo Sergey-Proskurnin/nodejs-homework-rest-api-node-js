@@ -1,25 +1,20 @@
-// const Contacts = require('../../repositories/contacts');
-const Contact = require('../../model/contact');
-
+const Contacts = require('../../repositories/contacts');
 
 const {
   HttpCode: { OK },
- } = require('../../helpers');
+} = require('../../helpers');
 
 const getAllContacts = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query
+  const { page, limit, favorite } = req.query;
   try {
-    const contacts = await Contact.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit)
-    .exec();
-    
-    const count = await Contact.countDocuments();
-    ;
-    return res
-      .status(OK)
-      .json({ status: 'success', code: OK, data: { contacts, totalPages: Math.ceil(count / limit),
-        currentPage: page } });
+    const contacts = await Contacts.listContacts(page, limit, favorite );
+    return res.status(OK).json({
+      status: 'success',
+      code: OK,
+      data: {
+        contacts,
+      },
+    });
   } catch (error) {
     next(error);
   }
