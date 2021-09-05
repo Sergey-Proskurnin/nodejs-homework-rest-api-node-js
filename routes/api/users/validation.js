@@ -8,9 +8,7 @@ const {
 
 const schemaPаramsrUser = Joi.object({
   password: Joi.string()
-    .pattern(
-      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/,
-    )
+    .pattern(/[0-9a-zA-Z!@#$%^&*]{6,}/)
     .required(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
   subscription: Joi.string().optional(),
