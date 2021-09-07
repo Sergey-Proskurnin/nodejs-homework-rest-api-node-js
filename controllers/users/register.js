@@ -15,11 +15,11 @@ const register = async (req, res, next) => {
         message: 'Email in use',
       });
     }
-    const { email, subscription } = await Users.create(req.body);
+    const { email, subscription, avatarURL } = await Users.create(req.body);
     return res.status(CREATED).json({
       status: 'success',
       code: CREATED,
-      user: { email, subscription },
+      user: { email, subscription, avatarURL },
     });
   } catch (error) {
     next(error);
