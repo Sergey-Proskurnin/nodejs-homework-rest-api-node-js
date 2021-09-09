@@ -13,10 +13,9 @@ const avatars = async (req, res, next) => {
     const id = req.user.id;
     const uploads = new UploadAvatarService(process.env.AVATAR_OF_USERS);
     const avatarUrl = await uploads.saveAvatar({ idUser: id, file: req.file });
-    // need delete old avatar
     try {
-        console.log(process.env.AVATAR_OF_USERS);
-        console.log(req.user.avatarURL);
+      console.log(process.env.AVATAR_OF_USERS);
+      console.log(req.user.avatarURL);
       await fs.unlink(
         path.join(process.env.AVATAR_OF_USERS, req.user.avatarURL),
       );
