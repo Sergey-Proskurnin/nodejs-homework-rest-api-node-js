@@ -8,7 +8,7 @@ const subscriptionUpdate = async (req, res, next) => {
     const userId = req.user.id;
     const { email, subscription } = await Users.updateSubscriptionUser(
       userId,
-      req.body.subscription
+      req.body.subscription,
     );
     if (email) {
       return res

@@ -18,7 +18,7 @@ const updateToken = async (id, token) => {
 };
 const updateAvatar = async (id, avatar) => {
   const result = await User.updateOne({ _id: id }, { avatarURL: avatar });
-  return result
+  return result;
 };
 
 const updateSubscriptionUser = async (userId, body) => {

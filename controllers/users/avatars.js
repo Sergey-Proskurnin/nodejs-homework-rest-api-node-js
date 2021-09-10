@@ -14,8 +14,6 @@ const avatars = async (req, res, next) => {
     const uploads = new UploadAvatarService(process.env.AVATAR_OF_USERS);
     const avatarUrl = await uploads.saveAvatar({ idUser: id, file: req.file });
     try {
-      console.log(process.env.AVATAR_OF_USERS);
-      console.log(req.user.avatarURL);
       await fs.unlink(
         path.join(process.env.AVATAR_OF_USERS, req.user.avatarURL),
       );
@@ -26,7 +24,7 @@ const avatars = async (req, res, next) => {
     res.status(OK).json({
       status: 'success',
       code: OK,
-      data: { avatarUrl },
+      data: { avatarURL: avatarUrl },
     });
   } catch (error) {
     next(error);

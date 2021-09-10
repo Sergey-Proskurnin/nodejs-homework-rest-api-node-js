@@ -1,3 +1,3 @@
-const UploadAvatarService = require('./local-upload')
+const UploadAvatarService = require('./local-upload');
 
-module.exports = {UploadAvatarService}
+module.exports = { UploadAvatarService };

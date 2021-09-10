@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const guard = require('../../../helpers/guard');
-const { upload } = require("../../../helpers")
+const { upload } = require('../../../helpers');
 const {
   validationPаramsUser,
   validationSubscriptionUser,
