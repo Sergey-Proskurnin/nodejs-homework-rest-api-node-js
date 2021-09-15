@@ -1,5 +1,9 @@
 const Users = require('../../repositories/users');
-
+const EmailService = require('../../services/email');
+const {
+  CreateSenderSendGrid,
+  // CreateSenderNodemailer,
+} = require('../../services/email-sender');
 const {
   HttpCode: { CREATED, CONFLICT },
 } = require('../../helpers');
@@ -15,11 +19,22 @@ const register = async (req, res, next) => {
         message: 'Email in use',
       });
     }
-    const { email, subscription, avatarURL } = await Users.create(req.body);
+    const { email, subscription, avatarURL, verifyToken } = await Users.create(
+      req.body,
+    );
+    try {
+      const emailService = new EmailService(
+        process.env.NODE_ENV,
+        new CreateSenderSendGrid(),
+      );
+      await emailService.sendVerifyEmail(verifyToken, email) 
+    } catch (error) {
+      console.log(error.message);
+    }
     return res.status(CREATED).json({
       status: 'success',
       code: CREATED,
-      user: { email, subscription, avatarURL },
+      user: { email, subscription, avatarURL, verifyToken },
     });
   } catch (error) {
     next(error);

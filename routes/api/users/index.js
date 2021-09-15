@@ -15,5 +15,7 @@ router.post('/signup', validationPаramsUser, ctrl.register);
 router.post('/login', validationPаramsUser, ctrl.login);
 router.post('/logout', guard, ctrl.logout);
 router.get('/current', guard, ctrl.current);
+router.get('/verify/:verificationToken', ctrl.verify);
+router.post('/verify', ctrl.repeatEmailVerify);
 
 module.exports = router;
