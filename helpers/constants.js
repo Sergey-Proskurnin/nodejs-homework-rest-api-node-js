@@ -20,7 +20,7 @@ const Packages = {
 const limiterAPI = {
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000,
-  handler: (req, res, next) => {
+  handler: (_req, res, _next) => {
     return res.status(HttpCode.TOO_MANY_REQUESTS).json({
       status: 'error',
       code: HttpCode.TOO_MANY_REQUESTS,

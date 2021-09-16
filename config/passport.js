@@ -9,23 +9,18 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET_KEY;
 
 passport.use(
-  new JwtStrategy(
-    opts,
-    async (payload, done) => {
-      try {
-        const user = await Users.findById(payload.id);
-        if (!user) {
-          return done(new Error('User not found'));
-        }
-        if (!user.token) {
-          return done(null, false);
-        }
-        return done(null, user);
-      } catch (error) {
-        done(error, false);
+  new JwtStrategy(opts, async (payload, done) => {
+    try {
+      const user = await Users.findById(payload.id);
+      if (!user) {
+        return done(new Error('User not found'));
       }
-    },
-
-    // or you could create a new account
-  ),
+      if (!user.token) {
+        return done(null, false);
+      }
+      return done(null, user);
+    } catch (error) {
+      done(error, false);
+    }
+  }),
 );

@@ -5,6 +5,7 @@ const { upload } = require('../../../helpers');
 const {
   validationPаramsUser,
   validationSubscriptionUser,
+  validationVerificationEmail,
 } = require('./validation');
 
 const { users: ctrl } = require('../../../controllers');
@@ -16,6 +17,6 @@ router.post('/login', validationPаramsUser, ctrl.login);
 router.post('/logout', guard, ctrl.logout);
 router.get('/current', guard, ctrl.current);
 router.get('/verify/:verificationToken', ctrl.verify);
-router.post('/verify', ctrl.repeatEmailVerify);
+router.post('/verify', validationVerificationEmail, ctrl.repeatEmailVerify);
 
 module.exports = router;

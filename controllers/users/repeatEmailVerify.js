@@ -1,9 +1,6 @@
 const Users = require('../../repositories/users');
 const EmailService = require('../../services/email');
-const {
-  //   CreateSenderSendGrid,
-  CreateSenderNodemailer,
-} = require('../../services/email-sender');
+const { CreateSenderNodemailer } = require('../../services/email-sender');
 const {
   HttpCode: { OK, CONFLICT, NOT_FOUND },
 } = require('../../helpers');
@@ -22,13 +19,13 @@ const repeatEmailVerify = async (req, res, next) => {
         return res.status(OK).json({
           status: 'success',
           code: OK,
-          data: { message: 'Resabmitted verification success' },
+          data: { message: 'Verification email sent' },
         });
       }
       return res.status(CONFLICT).json({
         status: 'error',
         code: CONFLICT,
-        message: 'Email has been verified',
+        message: 'Verification has already been passed',
       });
     }
     return res

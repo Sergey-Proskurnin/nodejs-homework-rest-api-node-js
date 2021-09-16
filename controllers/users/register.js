@@ -1,9 +1,6 @@
 const Users = require('../../repositories/users');
 const EmailService = require('../../services/email');
-const {
-  CreateSenderSendGrid,
-  // CreateSenderNodemailer,
-} = require('../../services/email-sender');
+const { CreateSenderSendGrid } = require('../../services/email-sender');
 const {
   HttpCode: { CREATED, CONFLICT },
 } = require('../../helpers');
@@ -27,7 +24,7 @@ const register = async (req, res, next) => {
         process.env.NODE_ENV,
         new CreateSenderSendGrid(),
       );
-      await emailService.sendVerifyEmail(verifyToken, email) 
+      await emailService.sendVerifyEmail(verifyToken, email);
     } catch (error) {
       console.log(error.message);
     }

@@ -7,20 +7,23 @@ class EmailService {
 
     switch (env) {
       case 'development':
-        this.link = `http://localhost:${process.env.PORT || 3000}`;
-        // this.link = `https://_.ngrok.io`;
+        this.link = process.env.LINK_HOST_DEVELOPMENT;
         break;
       case 'production':
         this.link = 'link from production';
         break;
       default:
-        this.link = 'http://localhost:3000';
-        // this.link = 'https://_.ngrok.io';
+        this.link = process.env.LINK_HOST_DEFAULT;
         break;
     }
   }
 
- #createTemplateVerificationEmail(verifyToken, emailUser) {
+  capitalize(str) {
+    const string = str.split('@')[0];
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  #createTemplateVerificationEmail(verifyToken, emailUser) {
     const mailGenerator = new Mailgen({
       theme: 'neopolitan',
       product: {
@@ -28,9 +31,10 @@ class EmailService {
         link: this.link,
       },
     });
+
     const email = {
       body: {
-        name: emailUser,
+        name: this.capitalize(emailUser),
         intro: "Welcome PSG System! We're very excited to have you on board.",
         action: {
           instructions: 'To get started with PSG System, please click here:',

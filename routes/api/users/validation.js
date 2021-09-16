@@ -18,6 +18,10 @@ const schemaSubscriptionUser = Joi.object({
   subscription: Joi.string().pattern(/^[a-zA-Z' ']{3,30}$/),
 });
 
+const shemaVerifyEmail = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
+});
+
 module.exports = {
   validationPаramsUser: (req, res, next) => {
     if ('password' in req.body && 'email' in req.body) {
@@ -37,6 +41,16 @@ module.exports = {
       status: 'error',
       code: BAD_REQUEST,
       message: 'Missing required name field',
+    });
+  },
+  validationVerificationEmail: (req, res, next) => {
+    if ('email' in req.body) {
+      return validate(shemaVerifyEmail, req.body, next);
+    }
+    return res.status(BAD_REQUEST).json({
+      status: 'error',
+      code: BAD_REQUEST,
+      message: 'Missing required field email',
     });
   },
 };

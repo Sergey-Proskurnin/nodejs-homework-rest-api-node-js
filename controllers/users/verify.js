@@ -1,25 +1,25 @@
 const Users = require('../../repositories/users');
 const {
-    HttpCode: { OK, NOT_FOUND },
-  } = require('../../helpers');
+  HttpCode: { OK, NOT_FOUND },
+} = require('../../helpers');
 
 const verify = async (req, res, next) => {
-try {
-    const user = await Users.findByVerifyToken(req.params.verificationToken)
-if (user) {
-    await Users.updateTokenVerify(user.id, true, null)
-    return res.status(OK).json({
+  try {
+    const user = await Users.findByVerifyToken(req.params.verificationToken);
+    if (user) {
+      await Users.updateTokenVerify(user.id, true, null);
+      return res.status(OK).json({
         status: 'success',
         code: OK,
-        data: {message: 'Verification successful'}
+        data: { message: 'Verification successful' },
       });
-}
-return res
+    }
+    return res
       .status(NOT_FOUND)
-      .json({ status: 'error', code: NOT_FOUND, message: 'Not found' });
+      .json({ status: 'error', code: NOT_FOUND, message: 'User not found' });
   } catch (error) {
     next(error);
   }
-}
+};
 
-module.exports = verify
+module.exports = verify;

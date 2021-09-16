@@ -9,5 +9,5 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {},
-  parser: "babel-eslint",
+  parser: 'babel-eslint',
 };

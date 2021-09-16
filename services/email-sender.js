@@ -14,10 +14,10 @@ class CreateSenderNodemailer {
     const config = {
       host: 'smtp.meta.ua',
       port: 465,
-      secure: true, // true for 465, false for other ports
+      secure: true,
       auth: {
-        user: process.env.USER_NODEMAILER, // generated ethereal user
-        pass: process.env.PASSWORD_NODEMAILER, // generated ethereal password
+        user: process.env.USER_NODEMAILER,
+        pass: process.env.PASSWORD_NODEMAILER,
       },
     };
     const transporter = nodemailer.createTransport(config);
